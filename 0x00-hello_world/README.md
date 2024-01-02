@@ -1,4 +1,4 @@
-0x00. C - Hello, World
+0x02. C - Hello, World
 ======================
 
 -   By Julien Barbier
