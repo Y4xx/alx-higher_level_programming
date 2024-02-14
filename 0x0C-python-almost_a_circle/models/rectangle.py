@@ -1,136 +1,98 @@
 #!/usr/bin/python3
-"""Class Rectangle"""
-
-from .base import Base
+""" This module contains class Rectangle """
+from models.base import Base
 
 
 class Rectangle(Base):
-    """Representation of a Rectangle"""
+    """ Class Rectangle """
 
     def __init__(self, width, height, x=0, y=0, id=None):
-        """add some raise error in the methods"""
-        super().__init__(id)
+        """ Init """
         self.width = width
         self.height = height
         self.x = x
         self.y = y
+        super().__init__(id)
 
     @property
     def width(self):
-        """width getter method"""
         return self.__width
 
     @width.setter
-    def width(self, width):
-        """width setter method"""
-        if type(width) is not int:
-            raise TypeError("width must be an integer")
-        if width <= 0:
-            raise ValueError("width must be > 0")
-        self.__width = width
+    def width(self, value):
+        Rectangle.validator(self, 'width', value)
+        self.__width = value
 
     @property
     def height(self):
-        """height getter method"""
         return self.__height
 
     @height.setter
-    def height(self, height):
-        """height setter method"""
-        if type(height) is not int:
-            raise TypeError("height must be an integer")
-        if height <= 0:
-            raise ValueError("height must be > 0")
-        self.__height = height
+    def height(self, value):
+        Rectangle.validator(self, 'height', value)
+        self.__height = value
 
     @property
     def x(self):
-        """x getter method"""
         return self.__x
 
     @x.setter
-    def x(self, x):
-        """x setter method"""
-        if type(x) is not int:
-            raise TypeError("x must be an integer")
-        if x < 0:
-            raise ValueError("x must be >= 0")
-        self.__x = x
+    def x(self, value):
+        Rectangle.validator(self, 'x', value)
+        self.__x = value
 
     @property
     def y(self):
-        """y getter method"""
         return self.__y
 
     @y.setter
-    def y(self, y):
-        """y setter method"""
-        if type(y) is not int:
-            raise TypeError("y must be an integer")
-        if y < 0:
-            raise ValueError("y must be >= 0")
-        self.__y = y
+    def y(self, value):
+        Rectangle.validator(self, 'y', value)
+        self.__y = value
+
+    def validator(self, name, value):
+        """ Validator method """
+        if not isinstance(value, int):
+            raise TypeError(f"{name} must be an integer")
+        if name == 'width' or name == 'height':
+            if value <= 0:
+                raise ValueError(f"{name} must be > 0")
+        if name == 'x' or name == 'y':
+            if value < 0:
+                raise ValueError(f"{name} must be >= 0")
 
     def area(self):
-        """area of rectangle"""
+        """ Area method """
         return self.width * self.height
 
     def display(self):
-        """
-            x represent number of spaces
-            and y represent number of lines
-            """
-        i = 0
-        for i in range(self.y):
+        """ Display method """
+        for _ in range(0, self.__y):
             print()
-        for i in range(self.height):
-            for k in range(self.x):
-                print(' ', end='')
-            for j in range(self.width):
-                print("#", end='')
+        for _ in range(0, self.__height):
+            for _ in range(0, self.__x):
+                print(" ", end="")
+            for _ in range(0, self.__width):
+                print("#", end="")
             print()
 
     def __str__(self):
-        """custom __str__ method for Rectangle"""
-        return (f"[Rectangle] ({self.id}) "
-                f"{self.x}/{self.y} - "
-                f"{self.width}/{self.height}")
+        s = "[Rectangle] ({}) {}/{} - {}/{}".format(
+            self.id, self.__x, self.__y, self.__width, self.__height)
+        return s
 
     def update(self, *args, **kwargs):
-        """updates values of the Rectangle instance from args or kwargs"""
-        if args and len(args > 0):
-            if len(args) > 0:
-                self.id = args[0]
-            if len(args) > 1:
-                self.width = args[1]
-            if len(args) > 2:
-                self.height = args[2]
-            if len(args) > 3:
-                self.x = args[3]
-            if len(args) > 4:
-                self.y = args[4]
-        elif kwargs:
+        """ Update method """
+        if args is not None and len(args) != 0:
+            list_atr = ['id', 'width', 'height', 'x', 'y']
+            for i in range(len(args)):
+                setattr(self, list_atr[i], args[i])
+        else:
             for key, value in kwargs.items():
-                """
-                    we can use this also
-                    setattr(self, key, value)
-                    """
-                if key == 'id':
-                    self.id = value
-                if key == 'width':
-                    self.width = value
-                if key == 'height':
-                    self.height = value
-                if key == 'x':
-                    self.x = value
-                if key == 'y':
-                    self.y = value
+                setattr(self, key, value)
 
     def to_dictionary(self):
-        """returns the dictionary representation of the Rectangle instance"""
-        return {
-                "id": self.id,
-                "size": self.width,
-                "x": self.x,
-                "y": self.y
-                }
+        """ Dictionary method """
+        my_dict = {'id': self.id, 'width': self.__width,
+                   'height': self.__height, 'x': self.__x, 'y': self.__y}
+        return my_dict
