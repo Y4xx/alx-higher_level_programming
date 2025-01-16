@@ -1,4 +1,3 @@
-
 #!/bin/bash
-# status code
-curl -so /dev/null -w "%{http_code}" "$1"
+#size of content-length
+curl -s -o /dev/null -w "%{http_code}" "$1"
