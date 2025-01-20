@@ -1,15 +1,15 @@
 #!/usr/bin/python3
-"""display error message"""
-from urllib import error
-from urllib import request
-from sys import argv
+"""python script"""
+import urllib.request
+import urllib.parse
+import urllib.error
+import sys
 
 
-if __name__ == '__main__':
-    req = request.Request(argv[1])
+if __name__ == "__main__":
     try:
-        with request.urlopen(req) as response:
-            the_page = response.read().decode('utf-8')
-            print(the_page)
-    except error.HTTPError as e:
+        with urllib.request.urlopen(sys.argv[1]) as response:
+            thisPage = response.read().decode('utf-8')
+            print(thisPage)
+    except urllib.error.URLError as e:
         print("Error code: {}".format(e.code))
